@@ -1,7 +1,7 @@
+package clasificador;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import Clasificador.Clasificador;
 
 public class ClasificadorTest {
 
@@ -19,8 +19,8 @@ public class ClasificadorTest {
 	
 	@Test
 	public void testClasificarDBPedia(){
-		String ttClasificado = Clasificador.clasificarTT("Aborto Elétrico");
-		assertEquals(ttClasificado, "Aborto Elétrico, organisation, DBPEDIA");		
+		String ttClasificado = Clasificador.clasificarTT("Aaron Sorkin");
+		assertEquals(ttClasificado, "Aaron Sorkin, agent, DBPEDIA");		
 	}
 
 	@Test
