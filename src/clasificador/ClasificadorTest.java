@@ -8,24 +8,24 @@ public class ClasificadorTest {
 	@Test
 	public void testClasificarHashtag() {
 		String ttClasificado = Clasificador.clasificarTT("#100greatest");
-		assertEquals(ttClasificado, "#100greatest, HASHTAGS");
+		assertEquals("#100greatest, HASHTAGS", ttClasificado);
 	}
 	
 	@Test
 	public void testClasificarEventoDeportivo(){
 		String ttClasificado = Clasificador.clasificarTT("AC Milan 1-2 FC Barcelona");
-		assertEquals(ttClasificado, "AC Milan 1-2 FC Barcelona, EVENTO DEPORTIVO");		
+		assertEquals("AC Milan 1-2 FC Barcelona, EVENTO DEPORTIVO", ttClasificado);		
 	}
 	
 	@Test
 	public void testClasificarDBPedia(){
 		String ttClasificado = Clasificador.clasificarTT("Aaron Sorkin");
-		assertEquals(ttClasificado, "Aaron Sorkin, agent, DBPEDIA");		
+		assertEquals("Aaron Sorkin, person, DBPEDIA", ttClasificado);		
 	}
 
 	@Test
 	public void testClasificarIMDB(){
 		String ttClasificado = Clasificador.clasificarTT("Addicted To Food");
-		assertEquals(ttClasificado, "Addicted To Food, title, IMDB");		
+		assertEquals("Addicted To Food, title, IMDB", ttClasificado);		
 	}
 }
