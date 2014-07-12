@@ -17,6 +17,7 @@ public class ClasificadorDBPedia implements ClassifierMethod{
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+		
 		HttpConnection conn = new HttpConnection();
 		String r = conn.getData("http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString=" + params);
 		XmlParser xmlParser = new XmlParser();

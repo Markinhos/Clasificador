@@ -30,7 +30,7 @@ public class LexicalClassifier implements ClassifierMethod{
 	@Override
 	public TTResult tryClasify(String trendingTopic) {
 		TTResult result;
-		result = this.tryHashtag(trendingTopic);
+		result = this.tryFeeling(trendingTopic);
 		return result;
 	}
 }
