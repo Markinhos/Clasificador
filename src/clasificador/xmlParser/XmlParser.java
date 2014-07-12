@@ -19,6 +19,19 @@ public class XmlParser {
 		InputSource is = new InputSource(new StringReader(xml));
 		return builder.parse(is);
 	}
+	
+	public String getResultFromXMLString(String xml){
+		try{
+			Document doc = loadXMLFromString(xml);
+			Element e = doc.getDocumentElement();
+			String response = e.getAttribute("response");
+			return response;
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
+	}
 
 	public String getLabelFromDBPediaXMLString(String xml){
 		try{

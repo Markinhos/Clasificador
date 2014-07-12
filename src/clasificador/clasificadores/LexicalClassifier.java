@@ -3,8 +3,11 @@ package clasificador.clasificadores;
 import clasificador.TTResult;
 
 public class LexicalClassifier implements ClassifierMethod{
+
+	private final String method = "LEXICAL";
+	
 	private TTResult tryHashtag(String trendingTopic){
-		TTResult ttResult = new TTResult();
+		TTResult ttResult = new TTResult(trendingTopic);
 		if(trendingTopic.startsWith("#")){
 			ttResult.setCategory("HASHTAGS");
 			ttResult.setResult(TTResult.TTStatus.FOUND);
@@ -16,7 +19,8 @@ public class LexicalClassifier implements ClassifierMethod{
 	}
 	
 	private TTResult tryFeeling(String trendingTopic){
-		TTResult tt = new TTResult();
+		TTResult tt = new TTResult(trendingTopic);
+		tt.setMethod(this.method);
 		if(trendingTopic.matches("(\\s+|^)(hate|love|happy)(\\s+|$)")){
 			tt.setResult(TTResult.TTStatus.FOUND);
 			tt.setCategory("SENTIMIENTOS");

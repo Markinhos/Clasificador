@@ -3,23 +3,32 @@ package clasificador;
 import clasificador.clasificadores.ClasificadorDBPedia;
 import clasificador.clasificadores.ClassifierMethod;
 import clasificador.clasificadores.LexicalClassifier;
+import clasificador.clasificadores.OMDBClassifier;
 
 public class Clasificador {
 	public static String clasificarTT(String trendingTopic){
-		String parsedTrendingTopic = parseTrendingTopic(trendingTopic);
+		String parsedTrendingTopic = removeExtraWhitespace(parseTrendingTopic(trendingTopic));
 		TTResult result = null;
 		ClassifierMethod clasificador = new LexicalClassifier();
 		result = clasificador.tryClasify(parsedTrendingTopic);
 
 		if (result.getResult() == TTResult.TTStatus.FOUND){
-			return trendingTopic + ", " + result.getCategory();
+			return result.toString();
 		}
 		else{
-			clasificador = new ClasificadorDBPedia();
+			clasificador = new OMDBClassifier();
 			result = clasificador.tryClasify(parsedTrendingTopic);
-			return trendingTopic + ", " + result.getCategory();			
+			if(result.getResult() == TTResult.TTStatus.FOUND){
+				return result.toString();			
+			}
+			else{
+				clasificador = new ClasificadorDBPedia();
+				result = clasificador.tryClasify(parsedTrendingTopic);
+				return result.toString();		
+			}		
 		}
 	}
+	
 
 	private static String parseTrendingTopic(String trendingTopic){
 		String parsedTrendingTopic = trendingTopic;
@@ -39,6 +48,10 @@ public class Clasificador {
 						),
 						" "
 				);
+	}
+	
+	private static String removeExtraWhitespace(String s){
+		return s.replaceAll(" +", " ");
 	}
 }
 

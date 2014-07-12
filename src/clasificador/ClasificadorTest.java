@@ -26,6 +26,6 @@ public class ClasificadorTest {
 	@Test
 	public void testClasificarIMDB(){
 		String ttClasificado = Clasificador.clasificarTT("Addicted To Food");
-		assertEquals("Addicted To Food, title, IMDB", ttClasificado);		
+		assertEquals("Addicted To Food, MOVIE, OMDB", ttClasificado);		
 	}
 }

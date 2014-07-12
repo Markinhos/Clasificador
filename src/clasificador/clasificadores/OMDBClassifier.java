@@ -6,9 +6,10 @@ import clasificador.TTResult;
 import clasificador.http.HttpConnection;
 import clasificador.xmlParser.XmlParser;
 
+public class OMDBClassifier implements ClassifierMethod{
 
-public class ClasificadorDBPedia implements ClassifierMethod{
-	private final String method = "DBPEDIA";
+	private final String method = "OMDB";
+	
 	@Override
 	public TTResult tryClasify(String trendingTopic) {
 		String params = "";
@@ -19,13 +20,20 @@ public class ClasificadorDBPedia implements ClassifierMethod{
 		}
 		
 		HttpConnection conn = new HttpConnection();
-		String r = conn.getData("http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString=" + params);
+		String r = conn.getData("http://www.omdbapi.com/?r=xml&t=" + params);
 		XmlParser xmlParser = new XmlParser();
-		String label = xmlParser.getLabelFromDBPediaXMLString(r);
+		String response = xmlParser.getResultFromXMLString(r);
+		
 		TTResult result = new TTResult(trendingTopic);
-		result.setResult(TTResult.TTStatus.FOUND);
-		result.setCategory(label);
 		result.setMethod(this.method);
+		if(response.equals("True")){
+			result.setResult(TTResult.TTStatus.FOUND);
+			result.setCategory("MOVIE");
+		}
+		else{
+			result.setResult(TTResult.TTStatus.NOT_FOUND);
+		}
 		return result;
 	}
+
 }
