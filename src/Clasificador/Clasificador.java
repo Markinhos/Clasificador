@@ -8,23 +8,23 @@ import clasificador.clasificadores.OMDBClassifier;
 public class Clasificador {
 	public static String clasificarTT(String trendingTopic){
 		String parsedTrendingTopic = removeExtraWhitespace(parseTrendingTopic(trendingTopic));
-		TTResult result = null;
+		TrendingTopicClassification result = null;
 		ClassifierMethod clasificador = new LexicalClassifier();
 		result = clasificador.tryClasify(parsedTrendingTopic);
 
-		if (result.getResult() == TTResult.TTStatus.FOUND){
+		if (result.getResult() == TrendingTopicClassification.TTStatus.FOUND){
 			return result.toString();
 		}
 		else{
-			clasificador = new OMDBClassifier();
+			clasificador = new ClasificadorDBPedia();
 			result = clasificador.tryClasify(parsedTrendingTopic);
-			if(result.getResult() == TTResult.TTStatus.FOUND){
+			if(result.getResult() == TrendingTopicClassification.TTStatus.FOUND){
 				return result.toString();			
 			}
 			else{
-				clasificador = new ClasificadorDBPedia();
+				clasificador = new OMDBClassifier();
 				result = clasificador.tryClasify(parsedTrendingTopic);
-				return result.toString();		
+				return result.toString();
 			}		
 		}
 	}

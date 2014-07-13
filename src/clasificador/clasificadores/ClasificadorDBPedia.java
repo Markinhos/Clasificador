@@ -1,31 +1,49 @@
 package clasificador.clasificadores;
 
-import java.io.UnsupportedEncodingException;
-
-import clasificador.TTResult;
+import clasificador.TrendingTopicClassification;
 import clasificador.http.HttpConnection;
 import clasificador.xmlParser.XmlParser;
 
 
-public class ClasificadorDBPedia implements ClassifierMethod{
+public class ClasificadorDBPedia extends APIClassifier{
 	private final String method = "DBPEDIA";
+	private static final String dbPediaEndpoint = "http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString=";		
+
+	public ClasificadorDBPedia(){
+		super(ClasificadorDBPedia.dbPediaEndpoint);
+	}
 	@Override
-	public TTResult tryClasify(String trendingTopic) {
-		String params = "";
-		try {
-			params = java.net.URLEncoder.encode(trendingTopic, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-		HttpConnection conn = new HttpConnection();
-		String r = conn.getData("http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString=" + params);
+	public TrendingTopicClassification tryClasify(String trendingTopic) {		
+
+		String data = this.getAPIdata(trendingTopic);	
+
 		XmlParser xmlParser = new XmlParser();
-		String label = xmlParser.getLabelFromDBPediaXMLString(r);
-		TTResult result = new TTResult(trendingTopic);
-		result.setResult(TTResult.TTStatus.FOUND);
-		result.setCategory(label);
-		result.setMethod(this.method);
+		String label = xmlParser.getLabelFromDBPediaXMLString(data);
+
+		return this.buildResult(trendingTopic, label);
+	}
+	
+	
+
+	private TrendingTopicClassification buildResult(String trendingTopic, String label){
+		TrendingTopicClassification result = new TrendingTopicClassification(trendingTopic);
+		if(isFound(label)){
+			result.setResult(TrendingTopicClassification.TTStatus.FOUND);
+			result.setCategory(label);
+			result.setMethod(this.method);
+		}
+		else{
+			result.setResult(TrendingTopicClassification.TTStatus.NOT_FOUND);			
+		}
 		return result;
 	}
+	
+
+	private Boolean isFound(String label){
+		if(label == null || label.equals("")){
+			return false;
+		}
+		return true;
+	}
+
 }

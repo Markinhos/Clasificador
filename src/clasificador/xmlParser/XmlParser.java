@@ -20,7 +20,7 @@ public class XmlParser {
 		return builder.parse(is);
 	}
 	
-	public String getResultFromXMLString(String xml){
+	public String getResultFromOmdbXMLString(String xml){
 		try{
 			Document doc = loadXMLFromString(xml);
 			Element e = doc.getDocumentElement();
@@ -36,13 +36,13 @@ public class XmlParser {
 	public String getLabelFromDBPediaXMLString(String xml){
 		try{
 			Document doc = loadXMLFromString(xml);
-			Element e = doc.getDocumentElement();
+			Element rootElement = doc.getDocumentElement();
 			
-			Element ele = this.getFirstResult(e);
+			Element firstResult = this.getFirstElementFromOtherElementByTag(rootElement, "Result");
 			
-			Element klass = this.getFirstClass(ele);
+			Element firstClass = this.getFirstElementFromOtherElementByTag(firstResult, "Class");
 			
-			String label = this.getLabelFromClass(klass);
+			String label = this.getLabelFromClass(firstClass);
 			
 			label = this.parseLabel(label);
 			return label;
@@ -50,38 +50,46 @@ public class XmlParser {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		return null;
+		return "";
 	}
 	
-	private Element getFirstClass(Element element){
-		NodeList nl = element.getElementsByTagName("Class");
-		if (nl.getLength() == 0){
-			return null;
+	private Element getFirstElementFromOtherElementByTag(Element element, String tagName){
+		try{
+			NodeList nl = element.getElementsByTagName(tagName);
+			
+			if (nl.getLength() == 0){
+				return null;
+			}
+			else{
+				return (Element)nl.item(0);
+			}
 		}
-		else{
-			return (Element)nl.item(0);
-		}		
+		catch(NullPointerException ex){
+			//ex.printStackTrace();
+			return null;
+		}				
 	}
 	
-	private Element getFirstResult(Element document){
-		NodeList nl = document.getElementsByTagName("Result");
-		if (nl.getLength() == 0){
-			return null;
-		}
-		else{
-			return (Element)nl.item(0);
-		}
-	}	
 	
 	private String getLabelFromClass(Element klass){
-		Node n = klass.getElementsByTagName("Label").item(0);
-		String s = n.getFirstChild().getNodeValue();
-		return s;
+		try{
+			Node n = klass.getElementsByTagName("Label").item(0);
+			String s = n.getFirstChild().getNodeValue();
+			return s;
+		}
+		catch(NullPointerException ex){
+			return "";
+		}
 	}
 	
 	private String parseLabel(String rawLabel){
-		String label = rawLabel.replaceAll("http://.*/", "").trim();
-		return label;
+		try{
+			String label = rawLabel.replaceAll("http://.*/", "").trim();
+			return label;		
+		}
+		catch(NullPointerException ex){
+			return "";
+		}
 	}
 	
 	

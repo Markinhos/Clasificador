@@ -1,6 +1,6 @@
 package clasificador;
 
-public class TTResult {
+public class TrendingTopicClassification {
 
 	public enum TTStatus { FOUND, NOT_FOUND };
 	private TTStatus result;
@@ -8,7 +8,7 @@ public class TTResult {
 	private String method;
 	private String ttTopic;
 	
-	public TTResult(String trendingTopic){
+	public TrendingTopicClassification(String trendingTopic){
 		this.ttTopic = trendingTopic;
 	}
 
@@ -33,6 +33,9 @@ public class TTResult {
 	}
 	
 	public String toString(){
-		return this.ttTopic + ", " + this.category + ", " + this.method;
+		if(this.result == TrendingTopicClassification.TTStatus.FOUND)
+			return this.ttTopic + ", " + this.category + ", " + this.method;
+		else
+			return this.ttTopic + ", NOT FOUND"; 
 	}
 }

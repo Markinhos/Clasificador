@@ -1,6 +1,6 @@
 package main;
-import java.io.File;
 
+import clasificador.Clasificador;
 import IO.Reader;
 
 public class Main {
@@ -8,7 +8,8 @@ public class Main {
 		Reader r = new Reader("Listado_TT.txt");
 		String l = "";
 		while((l = r.readLine()) != null){
-			System.out.println(l);
+			String result = Clasificador.clasificarTT(l);
+			System.out.println(result);
 		}
 	}
 }

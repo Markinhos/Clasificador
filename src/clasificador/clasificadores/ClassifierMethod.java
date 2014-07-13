@@ -1,7 +1,7 @@
 package clasificador.clasificadores;
 
-import clasificador.TTResult;
+import clasificador.TrendingTopicClassification;
 
 public interface ClassifierMethod {
-	TTResult tryClasify(String trendingTopic);
+	TrendingTopicClassification tryClasify(String trendingTopic);
 }

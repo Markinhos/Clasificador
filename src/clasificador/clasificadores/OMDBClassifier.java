@@ -1,37 +1,34 @@
 package clasificador.clasificadores;
 
-import java.io.UnsupportedEncodingException;
-
-import clasificador.TTResult;
+import clasificador.TrendingTopicClassification;
 import clasificador.http.HttpConnection;
 import clasificador.xmlParser.XmlParser;
 
-public class OMDBClassifier implements ClassifierMethod{
+public class OMDBClassifier extends APIClassifier{
 
 	private final String method = "OMDB";
+	private static final String omdbEndpoint = "http://www.omdbapi.com/?r=xml&t=";
+	
+	public OMDBClassifier(){
+		super(omdbEndpoint);
+	}
 	
 	@Override
-	public TTResult tryClasify(String trendingTopic) {
-		String params = "";
-		try {
-			params = java.net.URLEncoder.encode(trendingTopic, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	public TrendingTopicClassification tryClasify(String trendingTopic) {
 		
-		HttpConnection conn = new HttpConnection();
-		String r = conn.getData("http://www.omdbapi.com/?r=xml&t=" + params);
+		String data = this.getAPIdata(trendingTopic);
+		
 		XmlParser xmlParser = new XmlParser();
-		String response = xmlParser.getResultFromXMLString(r);
+		String response = xmlParser.getResultFromOmdbXMLString(data);
 		
-		TTResult result = new TTResult(trendingTopic);
+		TrendingTopicClassification result = new TrendingTopicClassification(trendingTopic);
 		result.setMethod(this.method);
 		if(response.equals("True")){
-			result.setResult(TTResult.TTStatus.FOUND);
+			result.setResult(TrendingTopicClassification.TTStatus.FOUND);
 			result.setCategory("MOVIE");
 		}
 		else{
-			result.setResult(TTResult.TTStatus.NOT_FOUND);
+			result.setResult(TrendingTopicClassification.TTStatus.NOT_FOUND);
 		}
 		return result;
 	}
