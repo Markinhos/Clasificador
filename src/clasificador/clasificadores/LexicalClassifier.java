@@ -13,7 +13,7 @@ public class LexicalClassifier extends AbstractClassifier{
 	private TrendingTopicClassification tryFeeling(){		
 		TrendingTopicClassification tt = new TrendingTopicClassification(this.trendingTopic);
 		tt.setMethod(this.method);
-		if(this.getTrendingTopicFormatted().matches("(\\s+|^)(hate|love|happy)(\\s+|$)")){
+		if(this.getTrendingTopicFormatted().toLowerCase().matches("(.*\\s+|^)(hate|love|happy)(\\s+.*|$)")){
 			tt.setResult(TrendingTopicClassification.TTStatus.FOUND);
 			tt.setCategory("Feelings");
 		}

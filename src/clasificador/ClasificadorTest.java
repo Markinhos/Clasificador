@@ -6,17 +6,17 @@ import org.junit.Test;
 public class ClasificadorTest {
 
 	@Test
-	public void testClasificarHashtag() {
-		Clasificador cl = new Clasificador("#100greatest");
+	public void testClasificarFeeling() {
+		Clasificador cl = new Clasificador("WE LOVE MEL FRONCKOWIAK");
 		String ttClasificado = cl.clasificarTT();
-		assertEquals("#100greatest, HASHTAGS", ttClasificado);
+		assertEquals("WE LOVE MEL FRONCKOWIAK, Feelings, LEXICAL", ttClasificado);
 	}
 	
 	@Test
 	public void testClasificarEventoDeportivo(){
-		Clasificador cl = new Clasificador("#100greatest");
+		Clasificador cl = new Clasificador("AC Milan 1-2 FC Barcelona");
 		String ttClasificado = cl.clasificarTT();
-		assertEquals("AC Milan 1-2 FC Barcelona, EVENTO DEPORTIVO", ttClasificado);		
+		assertEquals("AC Milan 1-2 FC Barcelona, Sport Event, LEXICAL", ttClasificado);		
 	}
 	
 	@Test
@@ -30,6 +30,6 @@ public class ClasificadorTest {
 	public void testClasificarIMDB(){
 		Clasificador cl = new Clasificador("Addicted To Food");
 		String ttClasificado = cl.clasificarTT();
-		assertEquals("Addicted To Food, MOVIE, OMDB", ttClasificado);		
+		assertEquals("Addicted To Food, Film, OMDB", ttClasificado);		
 	}
 }

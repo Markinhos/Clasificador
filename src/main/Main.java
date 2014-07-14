@@ -22,7 +22,7 @@ public class Main {
 			//System.out.println(result);
 		}
 		try {
-			ExecutorService executor = Executors.newFixedThreadPool(5);
+			ExecutorService executor = Executors.newFixedThreadPool(10);
 			List <Future<String>> results = executor.invokeAll(listTrendingTopics);
 	        executor.shutdown();
 	        

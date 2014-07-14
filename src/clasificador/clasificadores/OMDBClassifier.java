@@ -26,6 +26,7 @@ public class OMDBClassifier extends APIClassifier{
 	}
 	
 	private Boolean isFound(String response){
+		if(response == null || response.equals("")) return false;
 		return response.equals("True");
 	}
 	
@@ -34,7 +35,7 @@ public class OMDBClassifier extends APIClassifier{
 		ttresult.setMethod(this.method);
 		if(isFound(response)){
 			ttresult.setResult(TrendingTopicClassification.TTStatus.FOUND);
-			ttresult.setCategory("Movie");
+			ttresult.setCategory("Film");
 		}
 		else{
 			ttresult.setResult(TrendingTopicClassification.TTStatus.NOT_FOUND);
