@@ -7,25 +7,29 @@ public class ClasificadorTest {
 
 	@Test
 	public void testClasificarHashtag() {
-		String ttClasificado = Clasificador.clasificarTT("#100greatest");
+		Clasificador cl = new Clasificador("#100greatest");
+		String ttClasificado = cl.clasificarTT();
 		assertEquals("#100greatest, HASHTAGS", ttClasificado);
 	}
 	
 	@Test
 	public void testClasificarEventoDeportivo(){
-		String ttClasificado = Clasificador.clasificarTT("AC Milan 1-2 FC Barcelona");
+		Clasificador cl = new Clasificador("#100greatest");
+		String ttClasificado = cl.clasificarTT();
 		assertEquals("AC Milan 1-2 FC Barcelona, EVENTO DEPORTIVO", ttClasificado);		
 	}
 	
 	@Test
 	public void testClasificarDBPedia(){
-		String ttClasificado = Clasificador.clasificarTT("Aaron Sorkin");
+		Clasificador cl = new Clasificador("Aaron Sorkin");
+		String ttClasificado = cl.clasificarTT();
 		assertEquals("Aaron Sorkin, person, DBPEDIA", ttClasificado);		
 	}
 
 	@Test
 	public void testClasificarIMDB(){
-		String ttClasificado = Clasificador.clasificarTT("Addicted To Food");
+		Clasificador cl = new Clasificador("Addicted To Food");
+		String ttClasificado = cl.clasificarTT();
 		assertEquals("Addicted To Food, MOVIE, OMDB", ttClasificado);		
 	}
 }

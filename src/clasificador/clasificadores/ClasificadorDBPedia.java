@@ -1,7 +1,6 @@
 package clasificador.clasificadores;
 
 import clasificador.TrendingTopicClassification;
-import clasificador.http.HttpConnection;
 import clasificador.xmlParser.XmlParser;
 
 
@@ -9,13 +8,13 @@ public class ClasificadorDBPedia extends APIClassifier{
 	private final String method = "DBPEDIA";
 	private static final String dbPediaEndpoint = "http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryString=";		
 
-	public ClasificadorDBPedia(){
-		super(ClasificadorDBPedia.dbPediaEndpoint);
+	public ClasificadorDBPedia(String trendingTopic){
+		super(ClasificadorDBPedia.dbPediaEndpoint, trendingTopic);
 	}
 	@Override
-	public TrendingTopicClassification tryClasify(String trendingTopic) {		
+	public TrendingTopicClassification tryClasify() {		
 
-		String data = this.getAPIdata(trendingTopic);	
+		String data = this.getAPIdata(this.getTrendingTopicFormatted());	
 
 		XmlParser xmlParser = new XmlParser();
 		String label = xmlParser.getLabelFromDBPediaXMLString(data);
